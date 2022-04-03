@@ -25,7 +25,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $model = new User();
+        return view('pages.user.form', compact('model'));
     }
 
     /**
@@ -36,7 +37,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users,email'
+        ]);
+
+        $model = User::create($request->all());
+        return $model;
     }
 
     /**
